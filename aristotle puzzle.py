@@ -15,40 +15,45 @@ def main():
 if __name__ == '__main__':
     main()
 
-#.........(1 )(2 )(3 )
-#.......(4 )(5 )(6 )(7 )
-#.....(8 )(9 )(10)(11)(12)
-#.......(13)(14)(15)(16)
-#.........(17)(18)(19)
+import itertools
+
+#.........(A )(B )(C )
+#.......(D )(E )(F )(G )
+#.....(H )(I )(J )(K )(L )
+#.......(M )(N )(O )(P )
+#.........(Q )(R )(S )
 #
 #
 #
 
-A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-position = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-g3position = [[1, 2, 3], [3, 7, 12], [12, 16, 19], [19, 18, 17], [17, 13, 8], [8, 4, 1]]
-h4position = [[2, 5, 9, 13], [2, 6, 11, 16], [7, 6, 5, 4], [7, 11, 15, 18], [16, 15, 14, 13], [18, 14, 9, 4]]
-i5position = [[8, 9, 10, 11, 12], [1, 5, 10, 15, 19], [3, 6, 10, 14, 17]]
+A1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Aset = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}
+position = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's']
+g3position = [['a', 'b', 'c'], ['c', 'g', 'l'], ['l', 'p', 's'], ['s', 'r', 'q'], ['q', 'm','h'], ['h', 'd', 'a']]
+h4position = [['b', 'e', 'i', 'm'], ['b', 'f', 'k', 'p'], ['g', 'f', 'e', 'd'], ['g', 'k', 'o', 'r'], ['p', 'o', 'n', 'm'], ['r', 'n', 'i', 'd']]
+i5position = [['a', 'e', 'j', 'o', 's'], ['c', 'f', 'j', 'n', 'q'], ['l', 'k', 'j', 'i', 'h']]
 sideNumbers = [1, 2, 3, 4, 5, 6]
+corePositions = ['e', 'f', 'i', 'j', 'k', 'n', 'o']
+sidePositions = ['a', 'b', 'c', 'g', 'l', 'p', 's', 'r', 'q', 'm', 'h', 'd']
 
 #all possible sets of 3 numbers that add up to 38
 threes = []
 twos = []
 
-for x in A:
+for x in A1:
     C = []
-    for y in A:
+    for y in A1:
         if y > x:
             C.append(x)
             C.append(y)
             twos.append(C)
             C = []
 
-print("twos = ", twos)
+#print("twos = ", twos)
 
 for x in twos:
     tempTwos = x
-    for y in A:
+    for y in A1:
         if sum(x) + y == 38 and y not in x:
             tempTwos.append(y)
             threes.append(tempTwos)
@@ -60,20 +65,23 @@ for x in threes:
     b = sorted(x)
     sortedThrees.append(b)
 
+# creates a list of every possible set of 3 numbers adding to 38 w/o duplicates
 for x in sortedThrees:
     if x not in threesCheck:
         threesCheck.append(x)
 
 
-print("threes = ", threes)
-print("threesCheck = ", threesCheck)
-print(len(threes))
-print(len(threesCheck))
+#print("threes = ", threes)
+#print("threesCheck = ", threesCheck)
+#print(len(threes))
+#print(len(threesCheck))
 
 borderNumbers = []
 allThrees = []
 
 # 1 and 2 cannot be on corners
+
+# creates a list of every permutation of sets of 3 numbers adding to 38
 for x in threesCheck:
     tempList1 = []
     tempList1.append(x[0])
@@ -107,11 +115,14 @@ for x in threesCheck:
     allThrees.append(tempList6)
 
 
-print("allThrees: ", allThrees)
-print(len(allThrees))
+#print("allThrees: ", allThrees)
+#print(len(allThrees))
+
+count2 = 0
+bNumList = [] #List of all sets of perimiter solutions
 
 for x in allThrees:
-    keepGoing = True
+    #keepGoing = True
     borderNumbers = []
     #while keepGoing == True:
     for a in x:
@@ -133,9 +144,9 @@ for x in allThrees:
                             borderNumbers.append(a[1])
                             borderNumbers.append(a[2])
                             corner4 = a[2]
-                            print('foursides: ', borderNumbers)
-                            if len(borderNumbers) != 9:
-                                print('ERROR ERROR')
+##                            print('foursides: ', borderNumbers)
+##                            if len(borderNumbers) != 9:
+##                                print('ERROR ERROR')
                             for b in allThrees:
                                 if b[0] == corner4 and b[1] not in borderNumbers and b[2] not in borderNumbers:
                                     borderNumbers.append(b[1])
@@ -143,12 +154,87 @@ for x in allThrees:
                                     corner5 = b[2]
                                     for c in allThrees:
                                         if c[0] == corner5 and c[1] not in borderNumbers and c[2] == corner0:
-                                                borderNumbers.append(c[1])
-                                                borderNumbers.append(c[2])
-                                                print('answer: ',borderNumbers)
+                                            borderNumbers.append(c[1])
+                                            borderNumbers.append(c[2])
+##                                            newBN = borderNumbers[:13]
+                                            if len(borderNumbers) == 13:
+                                                newBN = borderNumbers[:]
+##                                                print(len(newBN))
+                                                #print('newBN: ', newBN)
+##                                                count2 += 1
+                                                #print('answer: ',borderNumbers)
+                                                bNumList.append(newBN)
+                                            else:
+                                                pass
 
+bNumList.sort()
+print(bNumList)
+#bNumList == all possible sets of border solutions
+for a in bNumList:
+    count2 +=1
+    #print(a)
 
+print("number of possible borders: ", count2)
 
+coreNumbers = []
+
+#corePPermutations = itertools.permutations(corePositions)
+#print([x for x in itertools.permutations(corePositions)])
+
+allCorePairings = []
+
+for x in bNumList:
+    print("This is x: ", x)
+    y = x[:12]
+    print("This is y: ", y)
+    borderDict = dict(zip(sidePositions, y))
+    coreNumbers = Aset - set(x)
+
+    """newPerimiter = {}
+    count3 = 0
+    for c in x[:12]:
+        newPerimiter[sidePositions[count3]] = c
+        count3 += 1
+    coreNumbers =[]
+    newCore = {}
+    count = 0
+    for y in A1:
+        if y not in x:
+            coreNumbers.append(y)"""
+    for z in itertools.permutations(coreNumbers):
+        #print("This is z: ", z)
+        totalDict = borderDict
+        corePairings = dict(zip(corePositions, z))
+        totalDict.update(corePairings)
+        allCorePairings.append(totalDict)
+    """for z in itertools.permutations(corePositions):
+        count = 0
+        for a in z:
+            newCore[a] = coreNumbers[count]
+            count += 1
+    for k in h4position:"""
+    print(corePairings)
+
+#it looks like allcorepairings is just spitting out the same thing over and over again! Fix!!
+print("These are the first few entries in allCorePairings: ", allCorePairings[1:7])
+
+count3 = 0
+for x in allCorePairings:
+    count3 += 1
+    currentPairing = x
+    if count3 < 8:
+        print(currentPairing)
+        print("allCorePairings: ", x)
+        print("x['b']: ", x['b'])
+    #print("allCorePairings[x]")
+    #print(x['b'])
+    """if int(x['b']) + int(x['e']) + int(x['i']) + int(x['m']) == 38 and x['b'] + x['f'] +x['k'] + x['p'] == 38\
+        and x['g'] + x['f'] + x['e'] + x['d'] == 38\
+        and x['g'] + x['k'] + x['o'] + x['r']== 38:
+        print("Possible solution: ", x)"""
+
+    if x['b'] + x['e'] + x['i'] + x['m'] == 38 and x['g'] + x['f'] + x['e'] + x['d'] == 38:
+        print("Possible solution: ", x)
 
 
 
