@@ -230,7 +230,7 @@ print("These are the first few entries in allPairings: ", allPairings[1:7])
 
 """ this will generate possible solutions, but the correct solution is not
 included. Somewhere along the way, something is not being iterated through
-completely/properly"""
+completely/properly. It is possible that the set of border solutions is not complete."""
 
 count3 = 0
 for x in allPairings:
