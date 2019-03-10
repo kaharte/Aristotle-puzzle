@@ -228,6 +228,10 @@ for x in bNumList:
 #it looks like allcorepairings is just spitting out the same thing over and over again! Fix!!
 print("These are the first few entries in allPairings: ", allPairings[1:7])
 
+""" this will generate possible solutions, but the correct solution is not
+included. Somewhere along the way, something is not being iterated through
+completely/properly"""
+
 count3 = 0
 for x in allPairings:
     count3 += 1
