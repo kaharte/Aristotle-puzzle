@@ -168,7 +168,7 @@ for x in allThrees:
                                                 pass
 
 bNumList.sort()
-print(bNumList)
+print("bNumList", bNumList)
 #bNumList == all possible sets of border solutions
 for a in bNumList:
     count2 +=1
@@ -181,14 +181,17 @@ coreNumbers = []
 #corePPermutations = itertools.permutations(corePositions)
 #print([x for x in itertools.permutations(corePositions)])
 
-allCorePairings = []
+allPairings = []
 
 for x in bNumList:
-    print("This is x: ", x)
     y = x[:12]
-    print("This is y: ", y)
+
+    #dictionary of possible border solution numbers mapped with positions
     borderDict = dict(zip(sidePositions, y))
+    #print("borderDict: ", borderDict)
+    #set of numbers inside the core, assuming previous border number solution
     coreNumbers = Aset - set(x)
+    print("coreNumbers: ", coreNumbers)
 
     """newPerimiter = {}
     count3 = 0
@@ -201,40 +204,47 @@ for x in bNumList:
     for y in A1:
         if y not in x:
             coreNumbers.append(y)"""
-    for z in itertools.permutations(coreNumbers):
+    tuple(coreNumbers)
+    #print("itertools.permutations(coreNumbers): ", [x for x in itertools.permutations(coreNumbers, 7)])
+
+    for z in [x for x in itertools.permutations(coreNumbers, 7)]:
         #print("This is z: ", z)
-        totalDict = borderDict
+        #z is possible set of core numbers
+        totalDict = borderDict.copy()
+        #dictionary of possible core solutions mapped with positions
         corePairings = dict(zip(corePositions, z))
+        #combines core numbers and border numbers dictionaries
         totalDict.update(corePairings)
-        allCorePairings.append(totalDict)
+        #print("totalDict: ", totalDict)
+        allPairings.append(totalDict)
     """for z in itertools.permutations(corePositions):
         count = 0
         for a in z:
             newCore[a] = coreNumbers[count]
             count += 1
     for k in h4position:"""
-    print(corePairings)
+    print("corePairings: ", corePairings)
 
 #it looks like allcorepairings is just spitting out the same thing over and over again! Fix!!
-print("These are the first few entries in allCorePairings: ", allCorePairings[1:7])
+print("These are the first few entries in allPairings: ", allPairings[1:7])
 
 count3 = 0
-for x in allCorePairings:
+for x in allPairings:
     count3 += 1
     currentPairing = x
     if count3 < 8:
-        print(currentPairing)
-        print("allCorePairings: ", x)
+        #print("current Pairing: ", currentPairing)
+        print("allPairings x: ", x)
         print("x['b']: ", x['b'])
     #print("allCorePairings[x]")
     #print(x['b'])
-    """if int(x['b']) + int(x['e']) + int(x['i']) + int(x['m']) == 38 and x['b'] + x['f'] +x['k'] + x['p'] == 38\
+    if int(x['b']) + int(x['e']) + int(x['i']) + int(x['m']) == 38 and x['b'] + x['f'] +x['k'] + x['p'] == 38\
         and x['g'] + x['f'] + x['e'] + x['d'] == 38\
         and x['g'] + x['k'] + x['o'] + x['r']== 38:
-        print("Possible solution: ", x)"""
-
-    if x['b'] + x['e'] + x['i'] + x['m'] == 38 and x['g'] + x['f'] + x['e'] + x['d'] == 38:
         print("Possible solution: ", x)
+
+    """if x['b'] + x['e'] + x['i'] + x['m'] == 38 and x['g'] + x['f'] + x['e'] + x['d'] == 38:
+        print("Possible solution: ", x)"""
 
 
 
